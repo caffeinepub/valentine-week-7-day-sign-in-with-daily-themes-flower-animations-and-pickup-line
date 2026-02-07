@@ -1,0 +1,86 @@
+.flower-field {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.flower-button {
+  position: absolute;
+  bottom: -60px;
+  width: 48px;
+  height: 48px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  pointer-events: auto;
+  animation: float-up 4s ease-in-out infinite;
+  transition: transform 0.2s ease;
+  padding: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flower-button:hover {
+  transform: scale(1.2);
+}
+
+.flower-button:focus {
+  outline: 2px solid oklch(var(--ring));
+  outline-offset: 2px;
+}
+
+.flower-button:active {
+  transform: scale(0.95);
+}
+
+.flower-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+@keyframes float-up {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-120vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .flower-button {
+    animation: float-up-reduced 6s ease-in-out infinite;
+  }
+
+  @keyframes float-up-reduced {
+    0% {
+      transform: translateY(0);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-50vh);
+      opacity: 0;
+    }
+  }
+}

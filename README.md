@@ -1,2 +1,3 @@
-# valentine-week-7-day-sign-in-with-daily-themes-flower-animations-and-pickup-line
-Exported from Caffeine project: Valentine Week 7-day sign-in with daily themes, flower animations, and pickup lines
+## 
+
+To run app build and run docker image: `docker build -t app . docker run -it --network host app`

@@ -1,0 +1,90 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-07T12:05:50.531Z",
+  "summary": "The diff implements an access-code gate UI with localStorage persistence, adds day-specific floating item assets in the animation, and adds a Feb 14 Valentine’s Day experience with a hearts celebration. However, the core data-flow/authorization changes to remove Principal/Internet Identity dependency and to enforce access-code validation in the backend are not implemented; the backend and frontend still use caller Principal-based endpoints. Also, the Valentine’s Day option labels are not exactly as specified, and required icon image files are referenced but not shown as added.",
+  "missing_requirements": [
+    {
+      "id": "REQ-11",
+      "requirement": "Update frontend data-flow so the app works without Internet Identity by using a locally-generated persisted clientId for all profile/progress reads and writes, and update backend endpoints accordingly.",
+      "reason": "Although a clientId is generated and used in React Query keys, the actual actor calls still use Principal-based methods (e.g., getCallerUserProfile, saveCallerUserProfile, getUserValentineData, claimDay) and no backend endpoints accepting (clientId, accessCode) are shown.",
+      "evidence": [
+        "frontend/src/hooks/useCurrentUserProfile.ts",
+        "frontend/src/hooks/useValentineClaims.ts",
+        "frontend/src/hooks/useClaimToday.ts",
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-12",
+      "requirement": "Modify backend authorization to validate the correct access code phrase for profile reads/writes and progress reads/day claims, and store data keyed by clientId (Text) instead of caller Principal.",
+      "reason": "Backend still stores maps keyed by Principal and gates operations via AccessControl permissions rather than validating the provided code phrase; no (clientId, codePhrase) parameters are present in the shown endpoints.",
+      "evidence": [
+        "backend/main.mo",
+        "backend/migration.mo"
+      ]
+    },
+    {
+      "id": "REQ-14",
+      "requirement": "Valentine’s Day (Feb 14) experience must show exactly two options labeled \"Yes\" and \"Ofcourse\".",
+      "reason": "The two buttons are labeled \"1. Yes\" and \"2. Ofcourse\" rather than exactly \"Yes\" and \"Ofcourse\".",
+      "evidence": [
+        "frontend/src/components/valentine/ValentinesDayExperience.tsx"
+      ]
+    },
+    {
+      "requirement": "Add the required day-specific floating item icon image files (teddy, chocolate, ring, promise, hug, kiss icons).",
+      "reason": "The UI references these asset paths, but the diff does not show the actual image files being added.",
+      "evidence": [
+        "frontend/src/components/valentine/FlowerField.tsx"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Backend role/permission-based authorization system (AccessControl / MixinAuthorization) used to authorize profile/data access.",
+      "reason": "The BuildRequest requires access-code phrase validation, not a permission/admin authorization model.",
+      "evidence": [
+        "backend/main.mo"
+      ]
+    },
+    {
+      "description": "Added an upgrade migration module that performs no migration (identity mapping unchanged).",
+      "reason": "BuildRequest says to add migration.mo only if upgrade-safe migration is actually required; the new migration module is a no-op and does not address the required Principal->clientId storage change.",
+      "evidence": [
+        "backend/migration.mo",
+        "backend/main.mo"
+      ]
+    },
+    {
+      "description": "Extra non-requested branding/footer content (© 2026, caffeine.ai link) and access-gate hint text.",
+      "reason": "Not requested in the BuildRequest requirements/AC; these are additional UI elements.",
+      "evidence": [
+        "frontend/src/components/auth/AccessGateScreen.tsx",
+        "frontend/src/App.tsx"
+      ]
+    }
+  ],
+  "confidence": 0.74,
+  "changed_files": [
+    "backend/main.mo",
+    "backend/migration.mo",
+    "frontend-file-summaries.txt",
+    "frontend/src/App.tsx",
+    "frontend/src/components/auth/AccessGateScreen.tsx",
+    "frontend/src/components/auth/LoginButton.tsx",
+    "frontend/src/components/valentine/ClaimTodayButton.tsx",
+    "frontend/src/components/valentine/DailyExperience.tsx",
+    "frontend/src/components/valentine/FlowerField.tsx",
+    "frontend/src/components/valentine/SevenDayProgress.tsx",
+    "frontend/src/components/valentine/ValentinesDayExperience.tsx",
+    "frontend/src/components/valentine/valentinesDayExperience.css",
+    "frontend/src/hooks/useAccessGate.ts",
+    "frontend/src/hooks/useClaimToday.ts",
+    "frontend/src/hooks/useClientId.ts",
+    "frontend/src/hooks/useCurrentUserProfile.ts",
+    "frontend/src/hooks/useValentineClaims.ts",
+    "frontend/src/lib/valentineDates.ts",
+    "project_state.json"
+  ]
+}

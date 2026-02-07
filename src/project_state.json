@@ -1,0 +1,156 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 5,
+  "summary": "Valentine-week themed app with a 7-day flow; app access is gated by entering a specific code phrase (no Internet Identity login). Each day shows themed visuals and an interactive floating-item animation that matches the day (e.g., roses on Rose Day, teddy bears on Teddy Day, chocolates on Chocolate Day). Valentine day presents a “Will you be my valentine?” prompt with two options, then shows a full-screen “I love uhh deha” hearts celebration after selection.",
+  "architectural_notes": [
+    "Authentication is replaced by a simple client-side code phrase gate (no Internet Identity login required).",
+    "Daily interactive animation assets should be parameterized by day (roses/teddy/chocolates/etc.) and selected by the same day-determination logic."
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- Teddy bear icon illustration (teddy-icon.dim_128x128.png)\n- Chocolate icon illustration (chocolate-icon.dim_128x128.png)\n- Engagement ring icon illustration (ring-icon.dim_128x128.png)\n- Handshake/promise icon illustration (promise-icon.dim_128x128.png)\n- Hug icon illustration (hug-icon.dim_128x128.png)\n- Kiss/lips icon illustration (kiss-icon.dim_128x128.png)",
+  "existing_features": [
+    {
+      "id": "feature-implement-internet-identity-sign-in-and-show-a-personalized-7-day-valentine-week-sign-in-screen-that-uses-the-authenticated-user-identity-to-load-and-persist-that-user-s-claimed-days",
+      "title": "Implement Internet Identity sign-in and show a personalized 7-day Valentine Week sign-in screen that uses the authenticated user identity to load and persist that user’s claimed days.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-fixed-7-day-valentine-week-day-model-and-ui-that-displays-each-day-s-name-at-minimum-rose-day-propose-day-chocolate-day-teddy-day-promise-day-hug-day-kiss-day-and-visually-indicates-which-days-are-completed-vs-not-completed",
+      "title": "Create a fixed 7-day Valentine Week day model and UI that displays each day’s name (at minimum: Rose Day, Propose Day, Chocolate Day, Teddy Day, Promise Day, Hug Day, Kiss Day) and visually indicates which days are completed vs not completed.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-determine-the-valentine-week-day-shown-for-today-and-use-it-to-drive-the-screen-s-theme-and-content-the-app-must-display-the-appropriate-day-label-and-daily-experience-when-the-user-opens-the-app-on-that-date",
+      "title": "Determine the ‘Valentine Week day’ shown for “today” and use it to drive the screen’s theme and content; the app must display the appropriate day label and daily experience when the user opens the app on that date.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-flowers-flaring-animation-on-the-daily-screen-render-multiple-floating-flaring-flower-elements-that-animate-across-the-view-and-are-individually-clickable-tappable",
+      "title": "Add a ‘flowers flaring’ animation on the daily screen: render multiple floating/flaring flower elements that animate across the view and are individually clickable/tappable.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-when-a-user-clicks-taps-a-flower-show-a-pickup-line-in-an-overlay-modal-popover-or-toast-and-ensure-repeated-clicks-can-show-different-pickup-lines-from-a-predefined-list-without-requiring-a-reload",
+      "title": "When a user clicks/taps a flower, show a pickup line in an overlay (modal, popover, or toast) and ensure repeated clicks can show different pickup lines (from a predefined list) without requiring a reload.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-persist-and-display-progress-show-the-user-s-7-day-check-in-progress-e-g-0-7-to-7-7-and-after-check-in-immediately-update-the-ui-using-react-query-cache-updates-or-refetching-so-the-new-day-is-marked-completed",
+      "title": "Persist and display progress: show the user’s 7-day check-in progress (e.g., 0/7 to 7/7), and after check-in, immediately update the UI using React Query cache updates or refetching so the new day is marked completed.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-coherent-valentine-themed-visual-design-system-colors-typography-spacing-component-styling-and-apply-it-consistently-across-the-app-auth-sign-in-progress-daily-animation-pickup-line-overlay-avoid-using-a-blue-purple-primary-palette",
+      "title": "Create a coherent Valentine-themed visual design system (colors, typography, spacing, component styling) and apply it consistently across the app (auth, sign-in/progress, daily animation, pickup line overlay). Avoid using a blue/purple primary palette.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-required-static-visual-assets-as-generated-images-under-frontend-public-assets-generated-and-use-them-in-the-ui-e-g-background-hero-flower-sprite-illustrations-small-icons-without-routing-images-through-the-backend",
+      "title": "Add required static visual assets as generated images under frontend/public/assets/generated and use them in the UI (e.g., background/hero, flower sprite/illustrations, small icons) without routing images through the backend.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-replace-the-current-internet-identity-login-flow-with-an-app-access-gate-that-prompts-the-user-to-enter-the-exact-code-phrase-i-love-uhh-deha-before-they-can-access-any-valentine-week-content",
+      "title": "Replace the current Internet Identity login flow with an app access gate that prompts the user to enter the exact code phrase \"I love uhh deha\" before they can access any Valentine Week content.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-frontend-data-flow-so-the-app-works-without-internet-identity-remove-dependency-on-principal-based-identity-for-queries-mutations-and-instead-use-a-locally-generated-persisted-client-identifier-to-associate-user-progress-profile-with-backend-storage",
+      "title": "Update frontend data-flow so the app works without Internet Identity: remove dependency on Principal-based identity for queries/mutations and instead use a locally-generated, persisted client identifier to associate user progress/profile with backend storage.",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-make-the-floating-clickable-animation-day-specific-show-roses-only-on-rose-day-teddy-bears-on-teddy-day-chocolates-on-chocolate-day-and-corresponding-themed-items-for-the-remaining-days-propose-promise-hug-kiss-so-the-floating-items-visually-match-the-current-day",
+      "title": "Make the floating/clickable animation day-specific: show roses only on Rose Day, teddy bears on Teddy Day, chocolates on Chocolate Day, and corresponding themed items for the remaining days (Propose, Promise, Hug, Kiss) so the floating items visually match the current day.",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-valentine-s-day-feb-14-experience-show-the-prompt-will-you-be-my-valentine-with-exactly-two-options-labeled-yes-and-ofcourse-after-the-user-selects-either-option-fill-the-entire-screen-with-the-text-i-love-uhh-deha-along-with-hearts",
+      "title": "Add a Valentine’s Day (Feb 14) experience: show the prompt \"Will you be my valentine?\" with exactly two options labeled \"Yes\" and \"Ofcourse\"; after the user selects either option, fill the entire screen with the text \"I love uhh deha\" along with hearts.",
+      "reqIds": [
+        "REQ-14"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Implement 7-day Valentine Week sign-in experience: each day maps to a themed Valentine week day (e.g., Rose Day) and signing in shows flower animations with tappable flowers that reveal pickup lines.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Implement the daily check-in rule: a user can claim/check in at most once per calendar day (based on a single consistent time basis, e.g., UTC date) and the backend must enforce this rule to prevent multiple claims via refresh.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Replace Internet Identity login with a no-login access gate: on app open, prompt user to enter the code phrase \"I love uhh deha\" to access the app.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Make the daily floating/clickable interaction day-specific: use roses only on Rose Day; swap to teddy bears on Teddy Day, chocolates on Chocolate Day, and corresponding themed items for the other days.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Add Valentine day experience: show \"Will you be my valentine?\" with two options (\"Yes\" and \"Ofcourse\"); after selection, fill the screen with \"I love uhh deha\" and hearts.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-10",
+      "summary": "Modify the backend authorization model to allow the access-code-gated, clientId-based usage: implement backend validation that only requests providing the correct code phrase \"I love uhh deha\" can read/write profile and claim/progress data for a given clientId.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Valentine Week 7-day sign-in with daily themes, flower animations, and pickup lines",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

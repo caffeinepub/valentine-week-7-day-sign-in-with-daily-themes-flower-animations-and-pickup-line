@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --radius: 0.75rem;
+        
+        /* Valentine-themed warm palette */
+        --background: 0.98 0.015 15;
+        --foreground: 0.25 0.05 15;
+        --card: 1 0.01 15;
+        --card-foreground: 0.25 0.05 15;
+        --popover: 1 0.01 15;
+        --popover-foreground: 0.25 0.05 15;
+        
+        /* Rose/Pink primary */
+        --primary: 0.55 0.18 15;
+        --primary-foreground: 0.98 0.01 15;
+        
+        /* Soft pink secondary */
+        --secondary: 0.95 0.02 15;
+        --secondary-foreground: 0.35 0.05 15;
+        
+        --muted: 0.96 0.015 15;
+        --muted-foreground: 0.55 0.03 15;
+        
+        --accent: 0.94 0.025 340;
+        --accent-foreground: 0.35 0.05 15;
+        
+        /* Red destructive */
+        --destructive: 0.55 0.22 25;
+        --destructive-foreground: 0.98 0.01 15;
+        
+        --border: 0.90 0.02 15;
+        --input: 0.92 0.02 15;
+        --ring: 0.60 0.15 15;
+        
+        --chart-1: 0.60 0.20 15;
+        --chart-2: 0.65 0.18 340;
+        --chart-3: 0.70 0.15 30;
+        --chart-4: 0.55 0.22 350;
+        --chart-5: 0.75 0.12 20;
+    }
+
+    .dark {
+        --background: 0.15 0.03 15;
+        --foreground: 0.95 0.01 15;
+        --card: 0.20 0.04 15;
+        --card-foreground: 0.95 0.01 15;
+        --popover: 0.18 0.04 15;
+        --popover-foreground: 0.95 0.01 15;
+        
+        /* Lighter rose for dark mode */
+        --primary: 0.70 0.15 15;
+        --primary-foreground: 0.20 0.04 15;
+        
+        --secondary: 0.25 0.04 15;
+        --secondary-foreground: 0.95 0.01 15;
+        
+        --muted: 0.25 0.04 15;
+        --muted-foreground: 0.65 0.02 15;
+        
+        --accent: 0.30 0.05 340;
+        --accent-foreground: 0.95 0.01 15;
+        
+        --destructive: 0.60 0.20 25;
+        --destructive-foreground: 0.95 0.01 15;
+        
+        --border: 0.30 0.04 15;
+        --input: 0.28 0.04 15;
+        --ring: 0.65 0.12 15;
+        
+        --chart-1: 0.65 0.18 15;
+        --chart-2: 0.70 0.16 340;
+        --chart-3: 0.75 0.14 30;
+        --chart-4: 0.60 0.20 350;
+        --chart-5: 0.80 0.10 20;
+    }
+
+    * {
+        @apply border-border;
+    }
+    
+    body {
+        @apply bg-background text-foreground;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    }
+    
+    /* Valentine-themed background pattern */
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('/assets/generated/heart-pattern.dim_1024x1024.png');
+        background-size: 200px 200px;
+        background-repeat: repeat;
+        opacity: 0.03;
+        pointer-events: none;
+        z-index: -1;
+    }
+}
+

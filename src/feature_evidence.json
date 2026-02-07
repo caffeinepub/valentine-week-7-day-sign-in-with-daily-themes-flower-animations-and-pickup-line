@@ -1,0 +1,90 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-replace-the-current-internet-identity-login-flow-with-an-app-access-gate-that-prompts-the-user-to-enter-the-exact-code-phrase-i-love-uhh-deha-before-they-can-access-any-valentine-week-content",
+      "featureTitle": "Replace the current Internet Identity login flow with an app access gate that prompts the user to enter the exact code phrase \"I love uhh deha\" before they can access any Valentine Week content.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/auth/AccessGateScreen.tsx",
+        "frontend/src/hooks/useAccessGate.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-10"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-update-frontend-data-flow-so-the-app-works-without-internet-identity-remove-dependency-on-principal-based-identity-for-queries-mutations-and-instead-use-a-locally-generated-persisted-client-identifier-to-associate-user-progress-profile-with-backend-storage",
+      "featureTitle": "Update frontend data-flow so the app works without Internet Identity: remove dependency on Principal-based identity for queries/mutations and instead use a locally-generated, persisted client identifier to associate user progress/profile with backend storage.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/hooks/useClaimToday.ts",
+        "frontend/src/hooks/useClientId.ts",
+        "frontend/src/hooks/useCurrentUserProfile.ts",
+        "frontend/src/hooks/useValentineClaims.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-11"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-make-the-floating-clickable-animation-day-specific-show-roses-only-on-rose-day-teddy-bears-on-teddy-day-chocolates-on-chocolate-day-and-corresponding-themed-items-for-the-remaining-days-propose-promise-hug-kiss-so-the-floating-items-visually-match-the-current-day",
+      "featureTitle": "Make the floating/clickable animation day-specific: show roses only on Rose Day, teddy bears on Teddy Day, chocolates on Chocolate Day, and corresponding themed items for the remaining days (Propose, Promise, Hug, Kiss) so the floating items visually match the current day.",
+      "files": [
+        "frontend/src/components/valentine/FlowerField.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-13"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-valentine-s-day-feb-14-experience-show-the-prompt-will-you-be-my-valentine-with-exactly-two-options-labeled-yes-and-ofcourse-after-the-user-selects-either-option-fill-the-entire-screen-with-the-text-i-love-uhh-deha-along-with-hearts",
+      "featureTitle": "Add a Valentine’s Day (Feb 14) experience: show the prompt \"Will you be my valentine?\" with exactly two options labeled \"Yes\" and \"Ofcourse\"; after the user selects either option, fill the entire screen with the text \"I love uhh deha\" along with hearts.",
+      "files": [
+        "frontend/src/components/valentine/DailyExperience.tsx",
+        "frontend/src/components/valentine/ValentinesDayExperience.tsx",
+        "frontend/src/components/valentine/valentinesDayExperience.css",
+        "frontend/src/lib/valentineDates.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-14"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

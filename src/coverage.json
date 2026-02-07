@@ -1,0 +1,138 @@
+{
+  "kind": "coverage_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-07T12:05:50.534Z",
+  "sources": {
+    "buildRequest": true,
+    "implementationPlan": true
+  },
+  "requirements": {
+    "total": 5,
+    "implemented": 4,
+    "items": [
+      {
+        "id": "REQ-10",
+        "summary": "Replace the current Internet Identity login flow with an app access gate that prompts the user to enter the exact code phrase \"I love uhh deha\" before they can access any Valentine Week content.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/hooks/useAccessGate.ts",
+          "frontend/src/components/auth/AccessGateScreen.tsx",
+          "frontend/src/App.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/hooks/useAccessGate.ts",
+          "frontend/src/components/auth/AccessGateScreen.tsx",
+          "frontend/src/App.tsx"
+        ]
+      },
+      {
+        "id": "REQ-11",
+        "summary": "Update frontend data-flow so the app works without Internet Identity: remove dependency on Principal-based identity for queries/mutations and instead use a locally-generated, persisted client identifier to associate user progress/profile with backend storage.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/hooks/useClientId.ts",
+          "frontend/src/hooks/useCurrentUserProfile.ts",
+          "frontend/src/hooks/useValentineClaims.ts",
+          "frontend/src/hooks/useClaimToday.ts",
+          "frontend/src/components/auth/ProfileSetupDialog.tsx",
+          "frontend/src/App.tsx",
+          "frontend/src/backend.d.ts"
+        ],
+        "matchedFiles": [
+          "frontend/src/hooks/useClientId.ts",
+          "frontend/src/hooks/useCurrentUserProfile.ts",
+          "frontend/src/hooks/useValentineClaims.ts",
+          "frontend/src/hooks/useClaimToday.ts",
+          "frontend/src/App.tsx",
+          "frontend/src/backend.d.ts"
+        ]
+      },
+      {
+        "id": "REQ-12",
+        "summary": "Modify the backend authorization model to allow the access-code-gated, clientId-based usage: implement backend validation that only requests providing the correct code phrase \"I love uhh deha\" can read/write profile and claim/progress data for a given clientId.",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-13",
+        "summary": "Make the floating/clickable animation day-specific: show roses only on Rose Day, teddy bears on Teddy Day, chocolates on Chocolate Day, and corresponding themed items for the remaining days (Propose, Promise, Hug, Kiss) so the floating items visually match the current day.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/public/assets/generated/teddy-icon.dim_128x128.png",
+          "frontend/public/assets/generated/chocolate-icon.dim_128x128.png",
+          "frontend/public/assets/generated/ring-icon.dim_128x128.png",
+          "frontend/public/assets/generated/promise-icon.dim_128x128.png",
+          "frontend/public/assets/generated/hug-icon.dim_128x128.png",
+          "frontend/public/assets/generated/kiss-icon.dim_128x128.png",
+          "frontend/src/components/valentine/FlowerField.tsx",
+          "frontend/src/components/valentine/flowerField.css"
+        ],
+        "matchedFiles": [
+          "frontend/public/assets/generated/teddy-icon.dim_128x128.png",
+          "frontend/public/assets/generated/chocolate-icon.dim_128x128.png",
+          "frontend/public/assets/generated/ring-icon.dim_128x128.png",
+          "frontend/public/assets/generated/promise-icon.dim_128x128.png",
+          "frontend/public/assets/generated/hug-icon.dim_128x128.png",
+          "frontend/public/assets/generated/kiss-icon.dim_128x128.png",
+          "frontend/src/components/valentine/FlowerField.tsx"
+        ]
+      },
+      {
+        "id": "REQ-14",
+        "summary": "Add a Valentine’s Day (Feb 14) experience: show the prompt \"Will you be my valentine?\" with exactly two options labeled \"Yes\" and \"Ofcourse\"; after the user selects either option, fill the entire screen with the text \"I love uhh deha\" along with hearts.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/lib/valentineDates.ts",
+          "frontend/src/components/valentine/ValentinesDayExperience.tsx",
+          "frontend/src/components/valentine/valentinesDayExperience.css",
+          "frontend/src/components/valentine/DailyExperience.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/lib/valentineDates.ts",
+          "frontend/src/components/valentine/ValentinesDayExperience.tsx",
+          "frontend/src/components/valentine/valentinesDayExperience.css",
+          "frontend/src/components/valentine/DailyExperience.tsx"
+        ]
+      }
+    ]
+  },
+  "changedFiles": [
+    "backend/main.mo",
+    "backend/migration.mo",
+    "build-request.json",
+    "build-template/README.md",
+    "feature_evidence.json",
+    "frontend-file-summaries.txt",
+    "frontend-implementation-plan.json",
+    "frontend/public/assets/generated/chocolate-icon.dim_128x128.png",
+    "frontend/public/assets/generated/hug-icon.dim_128x128.png",
+    "frontend/public/assets/generated/kiss-icon.dim_128x128.png",
+    "frontend/public/assets/generated/promise-icon.dim_128x128.png",
+    "frontend/public/assets/generated/ring-icon.dim_128x128.png",
+    "frontend/public/assets/generated/teddy-icon.dim_128x128.png",
+    "frontend/src/App.tsx",
+    "frontend/src/backend.d.ts",
+    "frontend/src/backend.ts",
+    "frontend/src/components/auth/AccessGateScreen.tsx",
+    "frontend/src/components/auth/LoginButton.tsx",
+    "frontend/src/components/valentine/ClaimTodayButton.tsx",
+    "frontend/src/components/valentine/DailyExperience.tsx",
+    "frontend/src/components/valentine/FlowerField.tsx",
+    "frontend/src/components/valentine/SevenDayProgress.tsx",
+    "frontend/src/components/valentine/ValentinesDayExperience.tsx",
+    "frontend/src/components/valentine/valentinesDayExperience.css",
+    "frontend/src/declarations/backend.did.d.ts",
+    "frontend/src/declarations/backend.did.js",
+    "frontend/src/hooks/useAccessGate.ts",
+    "frontend/src/hooks/useClaimToday.ts",
+    "frontend/src/hooks/useClientId.ts",
+    "frontend/src/hooks/useCurrentUserProfile.ts",
+    "frontend/src/hooks/useValentineClaims.ts",
+    "frontend/src/lib/valentineDates.ts",
+    "project_state.json",
+    "scratch/component-selection.json",
+    "spec.md",
+    "spec_vs_diff_report.json"
+  ]
+}

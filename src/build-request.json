@@ -1,0 +1,134 @@
+{
+  "kind": "build_request",
+  "title": "Replace Internet Identity with access-code gate and add day-specific floating items + Valentine question celebration",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-10",
+      "text": "Replace the current Internet Identity login flow with an app access gate that prompts the user to enter the exact code phrase \"I love uhh deha\" before they can access any Valentine Week content.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-3",
+          "msg-7",
+          "msg-11"
+        ],
+        "quotes": [
+          "just change the user authentication no login required when opening the app they need to enter a code \" I love uhh deha\" to access the app ."
+        ]
+      },
+      "acceptanceCriteria": [
+        "On initial app open, the user sees a dedicated access screen (not the Internet Identity login screen).",
+        "The user cannot view the Seven Day Progress or Daily Experience screens until the correct code phrase is entered.",
+        "Entering a value that is not exactly \"I love uhh deha\" (after trimming leading/trailing whitespace) does not unlock the app and shows an error state/message.",
+        "After the correct code phrase is entered once, the app remains unlocked on refresh using local persistence (e.g., localStorage) until the user explicitly locks/logs out (if such a control is provided).",
+        "All user-facing text used for this gate is in English."
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "text": "Update frontend data-flow so the app works without Internet Identity: remove dependency on Principal-based identity for queries/mutations and instead use a locally-generated, persisted client identifier to associate user progress/profile with backend storage.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-3",
+          "msg-7",
+          "msg-11"
+        ],
+        "quotes": [
+          "no login required when opening the app"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Frontend generates a stable clientId (stored locally) and uses it for all profile/progress reads and writes.",
+        "React Query keys for profile/progress are based on clientId (not identity principal).",
+        "Backend exposes corresponding endpoints that accept clientId (and any required access-code parameter) to get/save profile and to get/claim day progress.",
+        "The app can claim days and display progress without authenticating via Internet Identity."
+      ]
+    },
+    {
+      "id": "REQ-12",
+      "text": "Modify the backend authorization model to allow the access-code-gated, clientId-based usage: implement backend validation that only requests providing the correct code phrase \"I love uhh deha\" can read/write profile and claim/progress data for a given clientId.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-3",
+          "msg-7",
+          "msg-11"
+        ],
+        "quotes": [
+          "they need to enter a code \" I love uhh deha\" to access the app"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend traps/rejects profile reads, profile saves, progress reads, and day claims if the provided code phrase is not exactly \"I love uhh deha\" (after trimming leading/trailing whitespace).",
+        "Backend stores and retrieves user profile and claimed-day entries keyed by clientId (Text), not by caller Principal.",
+        "Existing day-name validation remains enforced (only the official Valentine Week day names can be claimed)."
+      ]
+    },
+    {
+      "id": "REQ-13",
+      "text": "Make the floating/clickable animation day-specific: show roses only on Rose Day, teddy bears on Teddy Day, chocolates on Chocolate Day, and corresponding themed items for the remaining days (Propose, Promise, Hug, Kiss) so the floating items visually match the current day.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-3",
+          "msg-7",
+          "msg-11"
+        ],
+        "quotes": [
+          "And flower interaction only the the rose day change the flowers with teddy on the teddy day and chocolates on the chocolate day so on and on"
+        ]
+      },
+      "acceptanceCriteria": [
+        "On Rose Day, the floating items render with the existing rose/flower asset.",
+        "On Chocolate Day, the floating items render with a chocolate-themed asset.",
+        "On Teddy Day, the floating items render with a teddy-themed asset.",
+        "On Propose Day, Promise Day, Hug Day, and Kiss Day, the floating items each render with a distinct themed asset appropriate to that day.",
+        "Clicking/tapping the floating items continues to show pickup lines (existing behavior), regardless of which themed item is displayed."
+      ]
+    },
+    {
+      "id": "REQ-14",
+      "text": "Add a Valentine’s Day (Feb 14) experience: show the prompt \"Will you be my valentine?\" with exactly two options labeled \"Yes\" and \"Ofcourse\"; after the user selects either option, fill the entire screen with the text \"I love uhh deha\" along with hearts.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-3",
+          "msg-7",
+          "msg-11"
+        ],
+        "quotes": [
+          "on the valentine show a question will you be my valentine with 2 options \" 1. Yes 2. Ofcourse\" after they click on of the option fill the whole screen with \"I love uhh deha\" with hearts ."
+        ]
+      },
+      "acceptanceCriteria": [
+        "When the current date is Feb 14, the Daily Experience area shows the Valentine prompt instead of the normal 7-day content.",
+        "The prompt text is exactly \"Will you be my valentine?\" and the two selectable options are exactly \"Yes\" and \"Ofcourse\".",
+        "After selecting either option, the app shows a full-screen celebration state containing the exact text \"I love uhh deha\" and a visible hearts effect (e.g., repeating hearts, animated hearts, or a heart-filled overlay).",
+        "All user-facing text used in this Valentine’s Day experience is in English."
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not edit files in frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, or anything under frontend/src/components/ui; compose around them instead.",
+    "Backend must remain a single Motoko actor in backend/main.mo; only add migration.mo if an upgrade-safe state migration is actually required by the implementation.",
+    "Do not introduce third-party authentication; Internet Identity should no longer be required for access."
+  ],
+  "nonGoals": [
+    "Adding third-party auth providers (Google/Facebook/GitHub/Auth0).",
+    "Adding real-time features (WebSockets/chat/push).",
+    "Changing the existing 7 Valentine Week day list or dates beyond adding the separate Feb 14 Valentine’s Day prompt experience."
+  ],
+  "imageRequirements": {
+    "required": [
+      "Teddy bear icon illustration (teddy-icon.dim_128x128.png)",
+      "Chocolate icon illustration (chocolate-icon.dim_128x128.png)",
+      "Engagement ring icon illustration (ring-icon.dim_128x128.png)",
+      "Handshake/promise icon illustration (promise-icon.dim_128x128.png)",
+      "Hug icon illustration (hug-icon.dim_128x128.png)",
+      "Kiss/lips icon illustration (kiss-icon.dim_128x128.png)"
+    ],
+    "edits": []
+  }
+}

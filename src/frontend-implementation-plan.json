@@ -1,0 +1,167 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Access-code gate + clientId data-flow + day-themed floating items + Feb 14 Valentine celebration",
+  "requirements": [
+    {
+      "id": "REQ-10",
+      "summary": "Replace Internet Identity login UX with an English access-code gate that unlocks the app only after entering the exact phrase.",
+      "acceptanceCriteria": [
+        "On initial app open, the user sees a dedicated access screen (not the Internet Identity login screen).",
+        "The user cannot view the Seven Day Progress or Daily Experience screens until the correct code phrase is entered.",
+        "Entering a value that is not exactly \"I love uhh deha\" (after trimming leading/trailing whitespace) does not unlock the app and shows an error state/message.",
+        "After the correct code phrase is entered once, the app remains unlocked on refresh using local persistence (e.g., localStorage) until the user explicitly locks/logs out (if such a control is provided).",
+        "All user-facing text used for this gate is in English."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useAccessGate.ts",
+          "operation": "create",
+          "description": "Add a hook that manages the access-code gate state: validates input by trimming and comparing exactly to \"I love uhh deha\", persists an unlocked flag and the trimmed code phrase in localStorage, exposes unlock/lock helpers, and provides an error state/message for incorrect phrases."
+        },
+        {
+          "path": "frontend/src/components/auth/AccessGateScreen.tsx",
+          "operation": "create",
+          "description": "Create a dedicated access screen UI (English-only copy) that prompts for the code phrase, shows an error state when incorrect, and calls the access-gate hook to unlock on success. Use existing shadcn/ui components for layout and inputs; Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Rework the root UI flow to remove the Internet Identity login screen from initial access: render the new AccessGateScreen until unlocked; once unlocked, render the existing Valentine Week UI. Add an explicit \"Lock\" control (in the header) that clears the unlocked state via the access-gate hook so refresh persistence behavior matches requirements."
+        }
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "summary": "Remove Principal/Internet Identity dependency in frontend data-flow by using a locally generated, persisted clientId for all profile/progress reads and writes.",
+      "acceptanceCriteria": [
+        "Frontend generates a stable clientId (stored locally) and uses it for all profile/progress reads and writes.",
+        "React Query keys for profile/progress are based on clientId (not identity principal).",
+        "Backend exposes corresponding endpoints that accept clientId (and any required access-code parameter) to get/save profile and to get/claim day progress.",
+        "The app can claim days and display progress without authenticating via Internet Identity."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useClientId.ts",
+          "operation": "create",
+          "description": "Add a hook to generate a stable clientId (e.g., crypto-random) on first run, persist it in localStorage, and return it for use across all React Query hooks and UI flows."
+        },
+        {
+          "path": "frontend/src/hooks/useCurrentUserProfile.ts",
+          "operation": "modify",
+          "description": "Update profile queries/mutations to use clientId-based backend capabilities (and include the stored access code phrase from the access-gate hook) instead of caller Principal. Ensure React Query keys include clientId and that queries are enabled only when actor is ready, app is unlocked, and clientId is available."
+        },
+        {
+          "path": "frontend/src/hooks/useValentineClaims.ts",
+          "operation": "modify",
+          "description": "Update the Valentine progress query to be clientId-based (no identity principal). Change React Query keys to include clientId and ensure calls include the persisted access code phrase from the access-gate hook so the app works without Internet Identity."
+        },
+        {
+          "path": "frontend/src/hooks/useClaimToday.ts",
+          "operation": "modify",
+          "description": "Update the claim-day mutation to use clientId-based backend capabilities (and include the persisted access code phrase) and invalidate the clientId-based progress query key on success."
+        },
+        {
+          "path": "frontend/src/components/auth/ProfileSetupDialog.tsx",
+          "operation": "modify",
+          "description": "Adjust the profile setup flow to work without Internet Identity: keep the same modal UI, but ensure it saves/fetches profile using the clientId-based hooks and is shown based on unlocked + missing profile state (not authenticated principal)."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Update App-level state wiring: remove identity-based gating and compute `showProfileSetup` from unlocked state + profile fetch state; ensure SevenDayProgress and DailyExperience render only after the access gate is unlocked."
+        },
+        {
+          "path": "frontend/src/backend.d.ts",
+          "operation": "modify",
+          "description": "Update frontend backend type declarations to reflect the new clientId + access-code-gated backend capabilities used by the modified hooks (no Principal-based methods for profile/progress in the primary app flow)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-13",
+      "summary": "Make floating/clickable items day-specific by swapping the floating asset per Valentine Week day while preserving pickup-line behavior.",
+      "acceptanceCriteria": [
+        "On Rose Day, the floating items render with the existing rose/flower asset.",
+        "On Chocolate Day, the floating items render with a chocolate-themed asset.",
+        "On Teddy Day, the floating items render with a teddy-themed asset.",
+        "On Propose Day, Promise Day, Hug Day, and Kiss Day, the floating items each render with a distinct themed asset appropriate to that day.",
+        "Clicking/tapping the floating items continues to show pickup lines (existing behavior), regardless of which themed item is displayed."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/assets/generated/teddy-icon.dim_128x128.png",
+          "operation": "create",
+          "description": "Add the generated asset at frontend/public/assets/generated/teddy-icon.dim_128x128.png so it can be used for Teddy Day floating items."
+        },
+        {
+          "path": "frontend/public/assets/generated/chocolate-icon.dim_128x128.png",
+          "operation": "create",
+          "description": "Add the generated asset at frontend/public/assets/generated/chocolate-icon.dim_128x128.png so it can be used for Chocolate Day floating items."
+        },
+        {
+          "path": "frontend/public/assets/generated/ring-icon.dim_128x128.png",
+          "operation": "create",
+          "description": "Add the generated asset at frontend/public/assets/generated/ring-icon.dim_128x128.png so it can be used for Propose Day floating items."
+        },
+        {
+          "path": "frontend/public/assets/generated/promise-icon.dim_128x128.png",
+          "operation": "create",
+          "description": "Add the generated asset at frontend/public/assets/generated/promise-icon.dim_128x128.png so it can be used for Promise Day floating items."
+        },
+        {
+          "path": "frontend/public/assets/generated/hug-icon.dim_128x128.png",
+          "operation": "create",
+          "description": "Add the generated asset at frontend/public/assets/generated/hug-icon.dim_128x128.png so it can be used for Hug Day floating items."
+        },
+        {
+          "path": "frontend/public/assets/generated/kiss-icon.dim_128x128.png",
+          "operation": "create",
+          "description": "Add the generated asset at frontend/public/assets/generated/kiss-icon.dim_128x128.png so it can be used for Kiss Day floating items."
+        },
+        {
+          "path": "frontend/src/components/valentine/FlowerField.tsx",
+          "operation": "modify",
+          "description": "Update the floating-item renderer to select the correct image per `dayName` (Rose uses existing frontend/public/assets/generated/flower-icon.dim_128x128.png; Propose uses ring; Chocolate uses chocolate; Teddy uses teddy; Promise uses handshake/promise; Hug uses hug; Kiss uses kiss). Keep the click handler and pickup-line overlay logic unchanged."
+        },
+        {
+          "path": "frontend/src/components/valentine/flowerField.css",
+          "operation": "modify",
+          "description": "If needed, adjust styling so new themed icons remain visually consistent (size, drop-shadow, hover/active) across all day-specific assets without changing the interaction model."
+        }
+      ]
+    },
+    {
+      "id": "REQ-14",
+      "summary": "Add a Feb 14 Valentine’s Day full-screen prompt and celebration that replaces normal 7-day content on that date.",
+      "acceptanceCriteria": [
+        "When the current date is Feb 14, the Daily Experience area shows the Valentine prompt instead of the normal 7-day content.",
+        "The prompt text is exactly \"Will you be my valentine?\" and the two selectable options are exactly \"Yes\" and \"Ofcourse\".",
+        "After selecting either option, the app shows a full-screen celebration state containing the exact text \"I love uhh deha\" and a visible hearts effect (e.g., repeating hearts, animated hearts, or a heart-filled overlay).",
+        "All user-facing text used in this Valentine’s Day experience is in English."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/lib/valentineDates.ts",
+          "operation": "modify",
+          "description": "Add a small helper to detect whether the current date (using the same UTC approach as the week status) is Feb 14, so DailyExperience can switch to the Valentine’s Day prompt deterministically."
+        },
+        {
+          "path": "frontend/src/components/valentine/ValentinesDayExperience.tsx",
+          "operation": "create",
+          "description": "Create a component that renders the exact prompt \"Will you be my valentine?\" with exactly two options labeled \"Yes\" and \"Ofcourse\"; after selection, render a full-screen celebration overlay with the exact text \"I love uhh deha\" and a visible hearts effect (e.g., an overlay using frontend/public/assets/generated/heart-pattern.dim_1024x1024.png). Use existing shadcn/ui components where appropriate; Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/valentine/valentinesDayExperience.css",
+          "operation": "create",
+          "description": "Add styles/animation for the full-screen hearts effect/overlay used by the Feb 14 celebration state, keeping all user-facing text in English."
+        },
+        {
+          "path": "frontend/src/components/valentine/DailyExperience.tsx",
+          "operation": "modify",
+          "description": "Wire the Feb 14 behavior: when the date helper indicates Feb 14, render ValentinesDayExperience in place of the normal Valentine Week content area (including replacing the flower field/claim button UI for that date). Ensure this switch happens before the normal week-active rendering logic."
+        }
+      ]
+    }
+  ]
+}

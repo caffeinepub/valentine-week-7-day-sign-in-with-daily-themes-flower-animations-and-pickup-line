@@ -1,0 +1,101 @@
+.valentine-celebration {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  background: linear-gradient(135deg, #fce7f3 0%, #fda4af 50%, #fb7185 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.dark .valentine-celebration {
+  background: linear-gradient(135deg, #4c0519 0%, #881337 50%, #9f1239 100%);
+}
+
+.celebration-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 2rem;
+}
+
+.celebration-text {
+  font-size: clamp(2rem, 8vw, 6rem);
+  font-weight: 900;
+  color: #881337;
+  text-shadow: 0 4px 20px rgba(136, 19, 55, 0.3);
+  animation: pulse-text 2s ease-in-out infinite;
+  line-height: 1.2;
+}
+
+.dark .celebration-text {
+  color: #fda4af;
+  text-shadow: 0 4px 20px rgba(253, 164, 175, 0.5);
+}
+
+@keyframes pulse-text {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.hearts-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.floating-heart {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  color: #f43f5e;
+  fill: currentColor;
+  opacity: 0;
+  animation: float-up 5s ease-in infinite;
+}
+
+.dark .floating-heart {
+  color: #fda4af;
+}
+
+@keyframes float-up {
+  0% {
+    bottom: -50px;
+    opacity: 0;
+    transform: translateX(0) rotate(0deg);
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    bottom: 110%;
+    opacity: 0;
+    transform: translateX(calc(var(--random-x, 0) * 100px)) rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .celebration-text {
+    animation: none;
+  }
+  
+  .floating-heart {
+    animation: none;
+    opacity: 0.3;
+  }
+}
